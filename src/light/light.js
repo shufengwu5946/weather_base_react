@@ -1,16 +1,48 @@
 import React from 'react';
-import withSubscription from './withSubscription';
-import BaseLight from './base_light';
+import {Redlight,Yellowlight,Greenlight} from './withSubscription';
 class Light extends React.Component{
+
+    constructor(props){
+        super(props);
+        this.handleChange = this.handleChange.bind(this);
+        this.state = {
+            red:true,
+            yellow:false,
+            green:false
+        };
+    }
+
+
+    handleChange(){
+        this.setState(
+            (prevState)=>{
+                if(prevState.red){
+                    return {
+                        red:false,
+                        yellow:true
+                    };
+                }else if(prevState.yellow){
+                    return {
+                        yellow:false,
+                        green:true
+                    };
+                }else if(prevState.green){
+                    return {
+                        red:true,
+                        green:false
+                    };
+                }
+            }
+        );
+        
+    }
     render(){
-        const Redlight = withSubscription(BaseLight,'red',0);
-        const Yellowlight = withSubscription(BaseLight,'yellow',1);
-        const Greenlight = withSubscription(BaseLight,'green',2);
+        
         return (
             <div>
-                <Redlight></Redlight>
-                <Yellowlight></Yellowlight>
-                <Greenlight></Greenlight>
+                <Redlight status = {this.state.red} handleChange = {this.handleChange}></Redlight>
+                <Yellowlight status = {this.state.yellow} handleChange = {this.handleChange}></Yellowlight>
+                <Greenlight status = {this.state.green} handleChange = {this.handleChange}></Greenlight>
             </div>
         );
     }

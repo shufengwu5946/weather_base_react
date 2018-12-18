@@ -1,43 +1,45 @@
 import React from 'react';
-export default function withSubscription(WrappedComponent, lightColor, initOrder) {
-    class Result extends React.Component{
-        
+import BaseLight from './base_light';
+function withSubscription(WrappedComponent, lightColor) {
+    class Result extends React.Component {
+
         constructor(props){
             super(props);
-            this.state = {status:false,interval:(initOrder*5000)};
-            this.tick = this.tick.bind(this);
+            this.handleChange = this.handleChange.bind(this);
         }
 
         componentDidMount(){
-            this.time = setTimeout(this.tick,this.state.interval);
-        }
-
-        componentWillMount(){
-            clearTimeout(this.time);
-            this.time = null;
-        }
-
-        tick(){
-            this.setState((prevState)=>({status:!prevState.status,interval:5000}))
-            clearTimeout(this.time);
-            this.time = setTimeout(this.tick,this.state.interval);
-        }
-
-        render(){
-            if(this.state.status){
-                console.log('true');
-                
-                return (
-                    <WrappedComponent light_color = {lightColor}></WrappedComponent>
-                );
-            }else{
-                console.log('false');
-                return (
-                    <WrappedComponent light_color = {'grey'}></WrappedComponent>
-                );
+            if(this.props.status){
+                this.time = setTimeout(this.handleChange, 5000);
             }
-            
+        }
+
+        componentDidUpdate(){
+            if(this.props.status){
+                this.time = setTimeout(this.handleChange, 5000);
+            }
+        }
+
+        handleChange(){
+            this.props.handleChange();
+            if (this.time !== null) {
+                clearTimeout(this.time);
+                this.time = null;
+            }
+        }
+
+        render() {
+            const status = this.props.status;
+            const light_color = status?lightColor:'grey';
+            return <WrappedComponent light_color = {light_color} {...this.props}> </WrappedComponent>;
         }
     }
+
     return Result;
 }
+
+const Redlight = withSubscription(BaseLight,'red');
+const Yellowlight = withSubscription(BaseLight,'yellow');
+const Greenlight = withSubscription(BaseLight,'green');
+
+export {Redlight,Yellowlight,Greenlight};
