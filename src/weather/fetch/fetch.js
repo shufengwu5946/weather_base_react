@@ -1,4 +1,5 @@
-let config = require('./_city.json');
+// let config = require('./_city.json');
+import config from './_city.json';
 export default function getWeatherByCity(city,func) {
     let cityCode = getCityCode(city);
     // console.log(`code${cityCode}`);
