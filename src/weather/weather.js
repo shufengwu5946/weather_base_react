@@ -11,18 +11,14 @@ class Weather extends React.Component {
     }
 
     componentDidMount() {
-        let that = this;
-        getWeatherByCity("北京", function (data) {
-            console.log(data);
-            that.setState({ weather: data });
+        getWeatherByCity("北京", (data) =>{
+            this.setState({ weather: data });
         });
     }
 
     handleQuery(city) {
-        let that = this;
-        getWeatherByCity(city, function (data) {
-            console.log(data);
-            that.setState({ weather: data });
+        getWeatherByCity(city, (data) =>{
+            this.setState({ weather: data });
         });
     }
 
