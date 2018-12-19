@@ -10,18 +10,28 @@ function withSubscription(WrappedComponent, lightColor) {
 
         componentDidMount(){
             if(this.props.status){
-                this.time = setTimeout(this.handleChange, 5000);
+                this.time = setTimeout(this.handleChange, 2000);
             }
         }
 
         componentDidUpdate(){
             if(this.props.status){
-                this.time = setTimeout(this.handleChange, 5000);
+                this.time = setTimeout(this.handleChange, 2000);
+            }else{
+                this.clearTimer();
             }
+        }
+
+        componentWillUnmount(){
+            this.clearTimer();
         }
 
         handleChange(){
             this.props.handleChange();
+            this.clearTimer();
+        }
+
+        clearTimer(){
             if (this.time !== null) {
                 clearTimeout(this.time);
                 this.time = null;

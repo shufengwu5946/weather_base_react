@@ -10,8 +10,6 @@ class Weather extends React.Component {
         this.state = { weather: "" };
     }
 
-
-
     componentDidMount() {
         let that = this;
         getWeatherByCity("北京", function (data) {
@@ -27,8 +25,6 @@ class Weather extends React.Component {
             that.setState({ weather: data });
         });
     }
-
-
 
     render() {
         return (

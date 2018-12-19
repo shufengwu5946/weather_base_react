@@ -4,6 +4,7 @@ import Weather from './weather/weather'
 import Light from './light/light'
 
 class App extends Component {
+
   render() {
     return (
       <div className="App">
